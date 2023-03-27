@@ -4,7 +4,7 @@ import { UserResponse } from "../types";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 import {
-    Container,
+
     Header,
     Group,
     Button,
@@ -23,6 +23,7 @@ export default function AppHeader() {
 
     return (
         <Header
+            my={rem(5)}
             height={HEADER_HEIGHT}
             className={classes.inner}
             sx={{ borderBottom: 0 }}

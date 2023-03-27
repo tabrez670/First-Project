@@ -1,7 +1,7 @@
 import React from "react";
 import { BlogParams } from "../types";
 import { useStyles } from "../styles/BlogItem.style";
-import { Card, Text, Group,  Image, Badge } from "@mantine/core";
+import { Card, Mark, Text, Group, Image, Badge } from "@mantine/core";
 
 interface BlogItemProps {
     blog: BlogParams;
@@ -47,7 +47,7 @@ export default function BlogItem({ blog }: BlogItemProps) {
 
                 <Group position="apart" className={classes.footer}>
                     <Text fz="sm" inline>
-                        category: {blog.categorySlug}
+                        <Mark>Category</Mark>: {blog.categorySlug}
                     </Text>
                 </Group>
             </Card>
