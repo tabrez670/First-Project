@@ -1,7 +1,11 @@
 import axios from "axios";
+import { LoginParams } from "../../types";
 
 const API = axios.create({
     baseURL: "https://api-staging-v2.sploot.space/api/v2/",
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
 API.interceptors.request.use(
@@ -17,55 +21,36 @@ API.interceptors.request.use(
     }
 );
 
-const login = async (email: string, password: string) => {
-    try {
-        console.log("sample")
-        const response = await API.post("auth/signin", {
-            email,
-            password,
-        });
-        console.log(response);
-
-        localStorage.setItem("token", response.data.token);
-
-        return response.data;
-    } catch (err) {
-        console.error(err);
-    }
+const login = async (params: LoginParams) => {
+    const response = await API.post("auth/signin", {
+        username: params.username,
+        password: params.password,
+    });
+    console.log(response);
+    localStorage.setItem("token", response.data.data.data.authToken);
+    return response.data;
 };
 
 const getUser = async (token: string) => {
-    try {
-        const response = await API.get("user", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        console.log(response);
-        return response.data;
-    } catch (err) {
-        console.error(err);
-    }
+    const response = await API.get("user", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    console.log(response);
+    return response.data;
 };
 
 const getCategories = async () => {
-    try {
-        const response = await API.get("cms/post-categories");
-        console.log(response);
-        return response.data;
-    } catch (err) {
-        console.error(err);
-    }
+    const response = await API.get("cms/post-categories");
+    console.log(response);
+    return response.data;
 };
 
 const getBlogByCategory = async (slug: string) => {
-    try {
-        const response = await API.get(`public/cms/post-categories/${slug}`);
-        console.log(response);
-        return response.data;
-    } catch (err) {
-        console.error(err);
-    }
+    const response = await API.get(`public/cms/post-categories/${slug}`);
+    console.log(response);
+    return response.data;
 };
 
 export default {

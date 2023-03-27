@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { Notifications } from "@mantine/notifications";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <MantineProvider
@@ -18,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         >
             <BrowserRouter>
                 <Provider store={store}>
+                    <Notifications position="top-right" zIndex={2077}/>
                     <App />
                 </Provider>
             </BrowserRouter>

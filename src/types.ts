@@ -4,3 +4,8 @@ export interface UserResponse {
     email: string;
     photoUrl: string;
 }
+
+export interface LoginParams {
+    username: string;
+    password: string;
+}
