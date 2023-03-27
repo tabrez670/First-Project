@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
-import { Image, Button } from "@mantine/core";
+import { Paper, Text, Avatar, Button } from "@mantine/core";
+import { useStyles } from "../styles/Categories.style";
 
 export default function Categories({ activeCategory, setActiveCategory }: any) {
     const [categories, setCategories] = useState([{ data: [] }]);
+    const { classes } = useStyles();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -19,21 +21,26 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
 
     return (
         <>
-            <div>
+            <Paper className={classes.root}>
                 {categories.map((category: any) => (
-                    <div key={category.id}>
-                        <h1>{category.name}</h1>
-                        <Button
-                            onClick={() => {
-                                setActiveCategory(category);
-                            }}
-                        >
-                            {category.name}
-                        </Button>
-                        {/* <Image src={category.imageUrl} /> */}
-                    </div>
+                    <Button
+                        compact
+                        variant="light"
+                        key={category.id}
+                        value={category.name}
+                        className={classes.btn}
+                        onClick={() => {
+                            setActiveCategory(category);
+                        }}
+                        {...(activeCategory.id === category.id && {
+                            variant: "subtle",
+                        })}
+                    >
+                        <Avatar size={"xs"} mr={"xs"} src={category.imageUrl} />
+                        <Text>{category.name}</Text>
+                    </Button>
                 ))}
-            </div>
+            </Paper>
         </>
     );
 }
