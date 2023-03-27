@@ -56,7 +56,9 @@ export function LoginForm(props: PaperProps) {
             const getUser = await API.getUser(result.data.data.authToken);
             const user = getUser.data.data;
             console.log(user);
-            dispatch(login(user));
+            setTimeout(() => {
+                dispatch(login(user));
+            }, 1000);
             notifications.update({
                 id: "login-form",
                 title: "Login Success",
