@@ -12,6 +12,7 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
             try {
                 const response = await API.getCategories();
                 setCategories(response.data.data);
+                setActiveCategory(response.data.data[0]);
             } catch (error) {
                 console.log(error);
             }
@@ -38,7 +39,7 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
                     {categories.map((category: any) => (
                         <Button
                             compact
-                            variant="light"
+                            variant="subtle"
                             key={category.id}
                             value={category.name}
                             className={classes.btn}
@@ -46,7 +47,7 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
                                 setActiveCategory(category);
                             }}
                             {...(activeCategory.id === category.id && {
-                                variant: "subtle",
+                                variant: "light",
                             })}
                         >
                             <Avatar

@@ -4,7 +4,6 @@ import { UserResponse } from "../types";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 import {
-
     Header,
     Group,
     Button,
