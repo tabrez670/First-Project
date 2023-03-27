@@ -1,4 +1,3 @@
-import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import {
     TextInput,
@@ -12,14 +11,16 @@ import {
     Stack,
 } from "@mantine/core";
 import API from "../utils/api";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { LoginParams } from "../types";
+import { IconX } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
 
 export function LoginForm(props: PaperProps) {
-    const navigate = useNavigate();
-  const dispatch = useDispatch();
-  
+    // const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const form = useForm({
         initialValues: {
@@ -35,7 +36,54 @@ export function LoginForm(props: PaperProps) {
         },
     });
 
+    const body: LoginParams = {
+        username: form.values.email,
+        password: form.values.password,
+    };
+
+    const onSubmit = async () => {
+        try {
+            notifications.show({
+                id: "login-form",
+                title: "Loading",
+                message: "Please wait... ",
+                color: "cyan",
+                icon: <IconX size={24} />,
+                autoClose: 5000,
+                loading: true,
+            });
+            const result = await API.login(body);
+            const getUser = await API.getUser(result.data.data.authToken);
+            const user = getUser.data.data;
+            console.log(user);
+            dispatch(login(user));
+            notifications.update({
+                id: "login-form",
+                title: "Login Success",
+                message: `Welcome back, ${user.email} `,
+                color: "teal",
+                icon: <IconX size={24} />,
+                autoClose: 5000,
+            });
+            // navigate("/");
+        } catch (error: any) {
+            setTimeout(() => {
+                notifications.update({
+                    id: "login-form",
+                    title: "Login Failed",
+                    message: error.response.data.message,
+                    color: "red",
+                    icon: <IconX size={24} />,
+                    autoClose: 5000,
+                });
+            }, 1000);
+            console.log(error);
+        }
+    };
+
     return (
+        // styles can be done using styles or class={} also, but for time saving using these shorthand properties by mantine. these are not classes!! these are just shorthands for style specifications. p-> padding, xl= mantineTheme.spacing.xl -> ~ "x" PX
+
         <Paper radius="md" p="xl" withBorder {...props}>
             <Text size="lg" weight={500}>
                 Login
@@ -48,26 +96,14 @@ export function LoginForm(props: PaperProps) {
             />
 
             <form
-                onSubmit={form.onSubmit(async (values) => {
-                    const result = await API.login(
-                        values.email,
-                        values.password
-                    );
-                    console.log(result);
-
-                    if (result?.status === 200) {
-                        const userDetails = await API.getUser(
-                            result.data.token
-                        );
-                        dispatch(login(userDetails));
-                        navigate("/");
-                    }
+                onSubmit={form.onSubmit(() => {
+                    onSubmit();
                 })}
             >
                 <Stack>
                     <TextInput
                         required
-                        label="Email"
+                        label="Username"
                         placeholder="hello@mantine.dev"
                         value={form.values.email}
                         onChange={(event) =>
