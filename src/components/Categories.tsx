@@ -30,7 +30,7 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
                     scrollbar: {
                         '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb':
                             {
-                                backgroundColor: theme.colors.blue[1],
+                                backgroundColor: theme.colors.lime[1],
                             },
                     },
                 })}
@@ -48,6 +48,7 @@ export default function Categories({ activeCategory, setActiveCategory }: any) {
                             }}
                             {...(activeCategory.id === category.id && {
                                 variant: "light",
+                                color: "lime",
                             })}
                         >
                             <Avatar

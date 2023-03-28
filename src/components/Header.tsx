@@ -28,7 +28,7 @@ export default function AppHeader() {
             my={rem(5)}
             height={HEADER_HEIGHT}
             className={classes.inner}
-            sx={{ borderBottom: 0 }}
+            sx={{ borderBottom: 0, position: "sticky", top: 0, zIndex: 1 }}
         >
             <UnstyledButton className={classes.user}>
                 <Group>

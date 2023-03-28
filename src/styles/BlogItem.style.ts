@@ -3,7 +3,9 @@ import { createStyles, rem } from "@mantine/core";
 export const useStyles = createStyles((theme) => ({
     card: {
         marginBottom: theme.spacing.md,
-        maxWidth: rem(280),
+        // maxWidth: rem(280),
+        // minWidth: rem(280),
+        width: rem(280),
         // maxHeight: rem(310),
         boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
         position: "relative",
