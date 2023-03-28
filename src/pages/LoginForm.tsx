@@ -9,6 +9,7 @@ import {
     Button,
     Divider,
     Stack,
+    rem,
     Container,
 } from "@mantine/core";
 import API from "../utils/api";
@@ -104,7 +105,16 @@ export function LoginForm(props: PaperProps) {
                     height: "100vh",
                 }}
             >
-                <Paper radius="md" p="xl" withBorder {...props}>
+                <Paper
+                    radius="md"
+                    p="xl"
+                    withBorder
+                    {...props}
+                    style={{
+                        width: rem(400),
+                        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+                    }}
+                >
                     <Text size="lg" weight={500}>
                         Login
                     </Text>

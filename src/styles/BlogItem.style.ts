@@ -5,9 +5,14 @@ export const useStyles = createStyles((theme) => ({
         marginBottom: theme.spacing.md,
         maxWidth: rem(280),
         // maxHeight: rem(310),
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
         position: "relative",
         backgroundColor:
             theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        "&:hover": {
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.3)",
+            transition: "box-shadow 0.2s ease-in-out 0s !important  ",
+        },
     },
     trend: {
         position: "absolute",

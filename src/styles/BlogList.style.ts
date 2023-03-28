@@ -8,7 +8,7 @@ export const useStyles = createStyles((theme) => ({
         justifyContent: "space-evenly",
         overflow: "hidden",
         backgroundColor:
-            theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+            theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         padding: theme.spacing.lg,
     },
 }));
