@@ -9,6 +9,7 @@ import {
     Button,
     Divider,
     Stack,
+    Container,
 } from "@mantine/core";
 import API from "../utils/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,19 +17,19 @@ import { login } from "../redux/userSlice";
 import { LoginParams } from "../types";
 import { IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm(props: PaperProps) {
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
-    // const user = useSelector((state: any) => state.user);
-    // useEffect(() => {
-    //     if (user) {
-    //         console.log("user");
-    //         navigate("/blog");
-    //     }
-    // }, []);
+    const navigate = useNavigate();
+    const user = useSelector((state: any) => state.user);
+    useEffect(() => {
+        if (user) {
+            console.log("user");
+            navigate("/blog");
+        }
+    }, []);
 
     const form = useForm({
         initialValues: {
@@ -66,16 +67,16 @@ export function LoginForm(props: PaperProps) {
             console.log(user);
             setTimeout(() => {
                 dispatch(login(user));
+                navigate("/blog");
             }, 1000);
             notifications.update({
                 id: "login-form",
                 title: "Login Success",
-                message: `Welcome back, ${user.email} `,
+                message: `Welcome back, ${user.name} `,
                 color: "teal",
                 icon: <IconX size={24} />,
                 autoClose: 5000,
             });
-            // navigate("/blog");
         } catch (error: any) {
             setTimeout(() => {
                 notifications.update({
@@ -94,63 +95,73 @@ export function LoginForm(props: PaperProps) {
     return (
         // styles can be done using styles or class={} also, but for time saving using these shorthand properties by mantine. these are not classes!! these are just shorthands for style specifications. p-> padding, xl= mantineTheme.spacing.xl -> ~ "x" PX
         <>
-            <Paper radius="md" p="xl" withBorder {...props}>
-                <Text size="lg" weight={500}>
-                    Login
-                </Text>
+            <Container
+                size="sm"
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Paper radius="md" p="xl" withBorder {...props}>
+                    <Text size="lg" weight={500}>
+                        Login
+                    </Text>
 
-                <Divider
-                    label="Enter email and password"
-                    labelPosition="center"
-                    my="lg"
-                />
+                    <Divider
+                        label="Enter email and password"
+                        labelPosition="center"
+                        my="lg"
+                    />
 
-                <form
-                    onSubmit={form.onSubmit(() => {
-                        onSubmit();
-                    })}
-                >
-                    <Stack>
-                        <TextInput
-                            required
-                            label="Username"
-                            placeholder="hello@mantine.dev"
-                            value={form.values.email}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "email",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={form.errors.email && "Invalid email"}
-                            radius="md"
-                        />
+                    <form
+                        onSubmit={form.onSubmit(() => {
+                            onSubmit();
+                        })}
+                    >
+                        <Stack>
+                            <TextInput
+                                required
+                                label="Username"
+                                placeholder="hello@mantine.dev"
+                                value={form.values.email}
+                                onChange={(event) =>
+                                    form.setFieldValue(
+                                        "email",
+                                        event.currentTarget.value
+                                    )
+                                }
+                                error={form.errors.email && "Invalid email"}
+                                radius="md"
+                            />
 
-                        <PasswordInput
-                            required
-                            label="Password"
-                            placeholder="Your password"
-                            value={form.values.password}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "password",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.password &&
-                                "Password should include at least 6 characters"
-                            }
-                            radius="md"
-                        />
-                    </Stack>
-                    <Group position="right" mt="xl">
-                        <Button type="submit" radius="xl">
-                            Login
-                        </Button>
-                    </Group>
-                </form>
-            </Paper>
+                            <PasswordInput
+                                required
+                                label="Password"
+                                placeholder="Your password"
+                                value={form.values.password}
+                                onChange={(event) =>
+                                    form.setFieldValue(
+                                        "password",
+                                        event.currentTarget.value
+                                    )
+                                }
+                                error={
+                                    form.errors.password &&
+                                    "Password should include at least 6 characters"
+                                }
+                                radius="md"
+                            />
+                        </Stack>
+                        <Group position="right" mt="xl">
+                            <Button type="submit" radius="xl">
+                                Login
+                            </Button>
+                        </Group>
+                    </form>
+                </Paper>
+            </Container>
         </>
     );
 }

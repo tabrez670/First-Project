@@ -12,6 +12,9 @@ import {
     UnstyledButton,
     Avatar,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconX } from "@tabler/icons-react";
+
 import { useStyles, HEADER_HEIGHT } from "../styles/Header.style";
 
 export default function AppHeader() {
@@ -49,6 +52,14 @@ export default function AppHeader() {
                 // px={"lg"}
                 variant="outline"
                 onClick={() => {
+                    notifications.show({
+                        id: "Logg-out",
+                        title: "Logged Out",
+                        message: "See you soon...!",
+                        color: "orange",
+                        icon: <IconX size={24} />,
+                        autoClose: 5000,
+                    });
                     dispatch(logout());
                     console.log("logout");
                     navigate("/");
