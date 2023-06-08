@@ -15,8 +15,10 @@ export interface UserResponse {
 }
 
 export interface LoginParams {
-    username: string;
+    email: string;
     password: string;
+    name?: string;
+    area?: string;
 }
 
 export interface BlogParams {
