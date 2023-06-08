@@ -22,7 +22,9 @@ export default function AppHeader() {
     const { classes } = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user: UserResponse = useSelector((state: any) => state.user);
+    // const user: UserResponse = useSelector((state: any) => state.user);
+    const usr = window.localStorage.getItem("user");
+    const user = usr ? JSON.parse(usr) : null;
 
     return (
         <Header
@@ -39,9 +41,11 @@ export default function AppHeader() {
                         <Text size="sm" weight={500}>
                             {user.name}
                         </Text>
-
                         <Text color="dimmed" size="xs">
                             {user.email}
+                        </Text>{" "}
+                        <Text color="dimmed" size="xs">
+                            {user.area}
                         </Text>
                     </div>
                 </Group>

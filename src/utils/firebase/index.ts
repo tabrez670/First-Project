@@ -1,5 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/userSlice";
+
 import { getAnalytics } from "firebase/analytics";
 import {
     GoogleAuthProvider,
@@ -61,33 +64,39 @@ const logInWithEmailAndPassword = async (email, password) => {
     try {
         const res = await signInWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        const q = query(collection(db, "users"), where("uid", "==", user.uid));
-        // const docs = await getDocs(q);
 
-        console.log("user", user);
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+
+        const docs = await getDocs(q);
+
+        if (docs.docs.length > 0) {
+            const userDoc = docs.docs[0].data();
+            localStorage.setItem("user", JSON.stringify(userDoc));
+            localStorage.setItem("token", userDoc.token);
+        }
     } catch (err: any) {
         console.error(err);
         alert(err.message);
     }
 };
 
-const registerWithEmailAndPassword = async (name, email:string, password, area) => {
+const registerWithEmailAndPassword = async (
+    name,
+    email: string,
+    password,
+    area
+) => {
     try {
-        const res = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password,
-        );
-      const user = res.user;
-       await addDoc(collection(db, "users"), {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
+        await addDoc(collection(db, "users"), {
             uid: user.uid,
             name,
             authProvider: "local",
             email,
             area,
-      });
-      // console.log("resp", resp);
-      
+        });
+        // console.log("resp", resp);
     } catch (err: any) {
         console.error(err);
         alert(err.message);
@@ -97,6 +106,27 @@ const logout = () => {
     signOut(auth);
 };
 
+// get collection by name
+const getCollection = async (collectionName) => {
+  // const q = query(collection(db, collectionName));
+  // const docs = await getDocs(q);
+  // return docs.docs.map((doc) => doc.data());
+  // query(Document(db, collectionName), where("uid", "==", user.uid)
+    const q = query(collection(db, collectionName));
+  const docs = await getDocs(q);
+  console.log(docs.docs.map((doc) => doc.data()));
+    return docs.docs.map((doc) => doc.data());
+};
+
+// FIXME: after fixing this implement inside the homepage component
+
+// get collection by name and where
+// const getCollectionByWhere = async (collectionName, whereField, whereValue) => {
+//   const q = query(collection(db, collectionName), where(whereField, "==", whereValue));
+//   const docs = await getDocs(q);
+//   return docs.docs.map((doc) => doc.data());
+// };
+
 export {
     auth,
     db,
@@ -104,4 +134,5 @@ export {
     logInWithEmailAndPassword,
     registerWithEmailAndPassword,
     logout,
+    getCollection,
 };

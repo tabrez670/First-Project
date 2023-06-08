@@ -12,7 +12,6 @@ import {
     rem,
     Container,
 } from "@mantine/core";
-import API from "../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/userSlice";
 import { LoginParams, Pages } from "../types";
@@ -20,6 +19,7 @@ import { IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { logInWithEmailAndPassword } from "../utils/firebase";
 
 export function LoginForm(props: PaperProps) {
     const dispatch = useDispatch();
@@ -40,14 +40,14 @@ export function LoginForm(props: PaperProps) {
         validate: {
             email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
             password: (val) =>
-                val.length <= 6
+                val.length <= 1
                     ? "Password should include at least 6 characters"
                     : null,
         },
     });
 
     const body: LoginParams = {
-        username: form.values.email,
+        email: form.values.email,
         password: form.values.password,
     };
 
@@ -62,13 +62,16 @@ export function LoginForm(props: PaperProps) {
                 autoClose: 5000,
                 loading: true,
             });
-            const result = await API.login(body);
-            const getUser = await API.getUser(result.data.data.authToken);
-            const user = getUser.data.data;
-            console.log(user);
+            // const result = await API.login(body);
+            // const getUser = await API.getUser(result.data.data.authToken);
+            // const user = getUser.data.data;
+            // console.log(user);
+            logInWithEmailAndPassword(body.email, body.password);
             setTimeout(() => {
-                dispatch(login(user));
+                // dispatch(login(user));
                 navigate("/blog");
+                window.location.reload();
+                
             }, 1000);
             notifications.update({
                 id: "login-form",

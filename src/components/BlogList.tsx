@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import BlogItem from "./BlogItem";
-import API from "../utils/api";
 import { BlogParams } from "../types";
 import {
     Loader,
@@ -14,21 +13,29 @@ import {
     createStyles,
 } from "@mantine/core";
 import { useStyles } from "../styles/BlogList.style";
+import { getCollection } from "../utils/firebase";
 
 interface BlogListProps {
     slug: string;
 }
 
+
 export default function BlogList({ slug }: BlogListProps) {
-    const [blogs, setBlogs] = React.useState([] as BlogParams[]);
+    const [blogs, setBlogs] = React.useState([]) ;
     const [loading, setLoading] = React.useState(true);
     const { classes } = useStyles();
     useEffect(() => {
         setLoading(true);
         const fetchBlogs = async () => {
             try {
-                const response = await API.getBlogByCategory(slug);
-                setBlogs(response.data.data);
+                // const response = await API.getBlogByCategory(slug);
+
+                const response = await getCollection("area");
+                console.log(response);
+                // TODO: fetch documents inside area collection based on the value of area
+                    // first correct the method inside firebase/index
+
+                // setBlogs(response.data.data);
                 setLoading(false);
             } catch (error) {
                 setLoading(false);
@@ -53,7 +60,7 @@ export default function BlogList({ slug }: BlogListProps) {
                 {blogs.length > 0 ? (
                     <>
                         {!loading &&
-                            blogs.map((blog: any) => (
+                                blogs.map((blog: any) => (
                                 <BlogItem key={blog.id} blog={blog}  place="other"/>
                             ))}
                     </>

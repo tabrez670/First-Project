@@ -5,7 +5,7 @@ import BlogList from "../components/BlogList";
 import { CategoryResponse } from "../types";
 import { Container, Divider } from "@mantine/core";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 import { Pages } from "../types";
@@ -17,6 +17,14 @@ export default function HomePage() {
 
     const user = useSelector((state: any) => state.user);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (user) {
+            console.log(JSON.parse(user));
+        }
+    }, []);
+
 
     useEffect(() => {
         if (!user || user === undefined || user === null) {
@@ -38,12 +46,12 @@ export default function HomePage() {
                 <Container size="xl">
                     <AppHeader />
                     <Divider />
-                    <Categories
+                    {/* <Categories
                         activeCategory={activeCategory}
                         setActiveCategory={setActiveCategory}
-                    />
+                    /> */}
                     {/* <Divider /> */}
-                    <BlogList slug={activeCategory.slug} />
+                    <BlogList slug={user.area} />
                 </Container>
             )}
         </>
