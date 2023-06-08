@@ -54,13 +54,13 @@ export default function BlogList({ slug }: BlogListProps) {
                     <>
                         {!loading &&
                             blogs.map((blog: any) => (
-                                <BlogItem key={blog.id} blog={blog} />
+                                <BlogItem key={blog.id} blog={blog}  place="other"/>
                             ))}
                     </>
                 ) : (
                     <>
                         {!loading && (
-                            <Text>There are no blogs in this category</Text>
+                            <Text>There are no shops/ products in this category</Text>
                         )}
                     </>
                 )}

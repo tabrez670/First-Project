@@ -31,5 +31,6 @@ export const useStyles = createStyles((theme) => ({
     },
     footer: {
         marginTop: theme.spacing.md,
+        position: "fixed",
     },
 }));

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
+import { Pages } from "../types";
 
 export default function HomePage() {
     const [activeCategory, setActiveCategory] = useState(
@@ -27,7 +28,7 @@ export default function HomePage() {
                 icon: <IconX size={24} />,
                 autoClose: 5000,
             });
-            navigate("/");
+            navigate(Pages.HOME);
         }
     }, []);
 

@@ -29,3 +29,11 @@ export interface BlogParams {
     redirectUrl: string;
     categorySlug: string;
 }
+
+export enum Pages {
+    SIGNUP = '/',
+    HOME = "/signup",
+    BLOG = "/blog",
+    PRODUCTS = "/products",
+    TEMPLATE = "/templ"
+}

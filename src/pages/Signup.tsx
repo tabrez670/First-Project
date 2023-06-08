@@ -21,7 +21,7 @@ import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function LoginForm(props: PaperProps) {
+export function Signup(props: PaperProps) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state: any) => state.user);
@@ -67,8 +67,8 @@ export function LoginForm(props: PaperProps) {
             const user = getUser.data.data;
             console.log(user);
             setTimeout(() => {
-                dispatch(login(user));
-                navigate("/blog");
+                // dispatch(login(user));
+                navigate(Pages.HOME);
             }, 1000);
             notifications.update({
                 id: "login-form",
@@ -116,7 +116,7 @@ export function LoginForm(props: PaperProps) {
                     }}
                 >
                     <Text size="lg" weight={500}>
-                        Login
+                        Signup
                     </Text>
 
                     <Divider
@@ -163,14 +163,22 @@ export function LoginForm(props: PaperProps) {
                                 }
                                 radius="md"
                             />
+                              <PasswordInput
+                                required
+                                label="Passwordd"
+                                placeholder="Your password"
+                                value={form.values.password}
+                                radius="md"
+                                // onChange={(event) =>
+                                //     form.setFieldValue(
+                                //         "password",
+                                //         event.currentTarget.value
+                                //     )
+                                // }
+                            />
                         </Stack>
                         <Group position="right" mt="xl">
                             <Button type="submit" radius="xl">
-                                Login
-                            </Button>
-                            <Button onClick={()=>{
-                                navigate(Pages.SIGNUP)
-                            }} radius="xl">
                                 Signup
                             </Button>
                         </Group>

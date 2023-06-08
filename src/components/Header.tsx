@@ -12,6 +12,7 @@ import {
     UnstyledButton,
     Avatar,
 } from "@mantine/core";
+import { Pages } from "../types";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 
@@ -62,7 +63,7 @@ export default function AppHeader() {
                     });
                     dispatch(logout());
                     console.log("logout");
-                    navigate("/");
+                    navigate(Pages.HOME);
                 }}
             >
                 Logout
